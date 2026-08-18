@@ -1,1 +1,24 @@
+# Build outputs
 target/
+*.war
+*.jar
+*.ear
+
+# H2 Database files
+*.mv.db
+*.trace.db
+data/
+
+# IDE & OS files
+.idea/
+*.iml
+.vscode/
+.settings/
+.classpath
+.project
+.DS_Store
+Thumbs.db
+
+# Environment & Config secrets
+config.properties
+.env
