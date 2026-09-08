@@ -1,8 +1,11 @@
 package com.raniya.raniyamart.controller;
 
 import com.raniya.raniyamart.model.Product;
+import com.raniya.raniyamart.model.Review;
 import com.raniya.raniyamart.service.ProductService;
+import com.raniya.raniyamart.service.ReviewService;
 import com.raniya.raniyamart.service.impl.ProductServiceImpl;
+import com.raniya.raniyamart.service.impl.ReviewServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,10 +19,12 @@ import java.util.List;
 public class ProductServlet extends HttpServlet {
 
     private ProductService productService;
+    private ReviewService reviewService;
 
     @Override
     public void init() throws ServletException {
         this.productService = new ProductServiceImpl();
+        this.reviewService = new ReviewServiceImpl();
     }
 
     @Override
@@ -32,7 +37,12 @@ public class ProductServlet extends HttpServlet {
                 try {
                     Long id = Long.parseLong(idStr);
                     Product product = productService.getProductById(id);
+                    List<Review> reviews = reviewService.getProductReviews(id);
+                    double avgRating = reviewService.getAverageRating(id);
+
                     req.setAttribute("product", product);
+                    req.setAttribute("reviews", reviews);
+                    req.setAttribute("avgRating", avgRating);
                     req.getRequestDispatcher("/product-detail.jsp").forward(req, resp);
                     return;
                 } catch (Exception e) {

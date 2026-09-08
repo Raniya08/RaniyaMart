@@ -2,6 +2,7 @@ package com.raniya.raniyamart.util;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
@@ -22,11 +23,17 @@ public class DBUtil {
             return;
         }
 
+        // Ensure data directory exists for persistent file storage
+        File dataDir = new File("./data");
+        if (!dataDir.exists()) {
+            dataDir.mkdirs();
+        }
+
         Properties props = loadConfigProperties();
 
         HikariConfig config = new HikariConfig();
         String driver = props.getProperty("db.driver", "org.h2.Driver");
-        String url = props.getProperty("db.url", "jdbc:h2:mem:raniyamartdb;DB_CLOSE_DELAY=-1;MODE=MySQL");
+        String url = props.getProperty("db.url", "jdbc:h2:file:./data/raniyamartdb;DB_CLOSE_DELAY=-1;MODE=MySQL;AUTO_SERVER=TRUE");
         String user = props.getProperty("db.user", "sa");
         String pass = props.getProperty("db.password", "");
 
@@ -40,7 +47,7 @@ public class DBUtil {
         config.setPoolName("RaniyaMartHikariPool");
 
         dataSource = new HikariDataSource(config);
-        LOGGER.info("HikariCP DataSource initialized successfully with URL: " + url);
+        LOGGER.info("HikariCP Persistent DataSource initialized successfully with URL: " + url);
 
         runSchemaAndSeedScripts();
     }
@@ -66,7 +73,7 @@ public class DBUtil {
                 props.load(is);
             }
         } catch (Exception e) {
-            LOGGER.log(Level.FINE, "config.properties not found, using default embedded H2 parameters", e);
+            LOGGER.log(Level.FINE, "config.properties not found, using persistent file H2 defaults", e);
         }
         return props;
     }
@@ -76,12 +83,14 @@ public class DBUtil {
              Statement stmt = conn.createStatement()) {
 
             executeScript(stmt, "schema.sql");
-            
+
             // Check if users table is empty before seeding
             var rs = stmt.executeQuery("SELECT COUNT(*) FROM users");
             if (rs.next() && rs.getInt(1) == 0) {
                 executeScript(stmt, "seed.sql");
-                LOGGER.info("seed.sql executed successfully!");
+                LOGGER.info("seed.sql executed successfully for initial data seeding!");
+            } else {
+                LOGGER.info("Database users table already populated. Persistent data loaded cleanly.");
             }
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Error initializing database schema/seed", e);
@@ -91,7 +100,7 @@ public class DBUtil {
     private static void executeScript(Statement stmt, String resourceName) throws Exception {
         InputStream is = DBUtil.class.getClassLoader().getResourceAsStream(resourceName);
         if (is == null) return;
-        
+
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
             StringBuilder sb = new StringBuilder();
             String line;

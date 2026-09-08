@@ -27,9 +27,10 @@
             <div class="alert alert-danger"><c:out value="${sessionScope.flashError}"/><c:remove var="flashError" scope="session"/></div>
         </c:if>
 
+        <!-- Section 1: Active Product Listings & Add Form -->
         <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; margin-top: 1.5rem;">
             <div>
-                <h3>My Active Product Listings (${fn:length(products)})</h3>
+                <h3>My Product Listings (${fn:length(products)})</h3>
                 <div class="table-container">
                     <table>
                         <thead>
@@ -84,6 +85,10 @@
                             <option value="Electronics">Electronics</option>
                             <option value="Fashion">Fashion</option>
                             <option value="Furniture">Furniture</option>
+                            <option value="Mobile Phones">Mobile Phones</option>
+                            <option value="Home & Appliances">Home & Appliances</option>
+                            <option value="Books & Media">Books & Media</option>
+                            <option value="Other">Other</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -104,6 +109,63 @@
                     </div>
                     <button type="submit" class="btn btn-primary" style="width: 100%;">Create Listing</button>
                 </form>
+            </div>
+        </div>
+
+        <!-- Section 2: Incoming Orders & Order Status Workflow -->
+        <div style="margin-top: 3rem;">
+            <h3>Incoming Orders (${fn:length(incomingOrders)})</h3>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Buyer ID</th>
+                            <th>Total Amount</th>
+                            <th>Current Status</th>
+                            <th>Update Workflow Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach var="ord" items="${incomingOrders}">
+                            <tr>
+                                <td><strong>#<c:out value="${ord.id}"/></strong></td>
+                                <td>Buyer #<c:out value="${ord.buyerId}"/></td>
+                                <td>₹<c:out value="${ord.totalAmount}"/></td>
+                                <td>
+                                    <c:choose>
+                                        <c:when test="${ord.status eq 'DELIVERED'}">
+                                            <span class="badge badge-success"><c:out value="${ord.status}"/></span>
+                                        </c:when>
+                                        <c:when test="${ord.status eq 'SHIPPED'}">
+                                            <span class="badge badge-info"><c:out value="${ord.status}"/></span>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <span class="badge badge-warning"><c:out value="${ord.status}"/></span>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </td>
+                                <td>
+                                    <form action="${pageContext.request.contextPath}/seller/order/status" method="POST" style="display: flex; gap: 0.5rem; align-items: center; margin: 0;">
+                                        <input type="hidden" name="orderId" value="${ord.id}"/>
+                                        <select name="status" class="select-input" style="padding: 0.3rem; font-size: 0.85rem;">
+                                            <option value="CONFIRMED" ${ord.status eq 'CONFIRMED' ? 'selected' : ''}>CONFIRMED</option>
+                                            <option value="SHIPPED" ${ord.status eq 'SHIPPED' ? 'selected' : ''}>SHIPPED</option>
+                                            <option value="DELIVERED" ${ord.status eq 'DELIVERED' ? 'selected' : ''}>DELIVERED</option>
+                                            <option value="CANCELLED" ${ord.status eq 'CANCELLED' ? 'selected' : ''}>CANCELLED</option>
+                                        </select>
+                                        <button type="submit" class="btn btn-secondary" style="padding: 0.3rem 0.6rem; font-size: 0.8rem;">Save Status</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                        <c:if test="${empty incomingOrders}">
+                            <tr>
+                                <td colspan="5" style="text-align: center; color: var(--text-secondary); padding: 2rem;">No incoming orders yet.</td>
+                            </tr>
+                        </c:if>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

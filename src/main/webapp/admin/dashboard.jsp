@@ -20,6 +20,13 @@
     <div class="container">
         <h2>Admin Management Panel</h2>
 
+        <c:if test="${not empty sessionScope.flashSuccess}">
+            <div class="alert alert-success"><c:out value="${sessionScope.flashSuccess}"/><c:remove var="flashSuccess" scope="session"/></div>
+        </c:if>
+        <c:if test="${not empty sessionScope.flashError}">
+            <div class="alert alert-danger"><c:out value="${sessionScope.flashError}"/><c:remove var="flashError" scope="session"/></div>
+        </c:if>
+
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1.5rem;">
             <div>
                 <h3>Registered Users (${fn:length(users)})</h3>
@@ -71,6 +78,42 @@
                         </tbody>
                     </table>
                 </div>
+            </div>
+        </div>
+
+        <!-- Section 3: Product Listing Moderation -->
+        <div style="margin-top: 3rem;">
+            <h3>Product Listings Moderation (${fn:length(products)})</h3>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Product Name</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                            <th>Stock</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach var="p" items="${products}">
+                            <tr>
+                                <td>#<c:out value="${p.id}"/></td>
+                                <td><strong><c:out value="${p.name}"/></strong></td>
+                                <td><c:out value="${p.category}"/></td>
+                                <td>₹<c:out value="${p.price}"/></td>
+                                <td><c:out value="${p.stockQty}"/></td>
+                                <td>
+                                    <form action="${pageContext.request.contextPath}/admin/product/delete" method="POST" style="margin: 0;">
+                                        <input type="hidden" name="productId" value="${p.id}"/>
+                                        <button type="submit" class="btn btn-danger" style="padding: 0.3rem 0.6rem; font-size: 0.8rem;">Moderate / Remove</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

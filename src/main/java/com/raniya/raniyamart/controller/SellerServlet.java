@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 
-@WebServlet(urlPatterns = {"/seller/dashboard", "/seller/product/add", "/seller/product/edit", "/seller/product/delete"})
+@WebServlet(urlPatterns = {"/seller/dashboard", "/seller/product/add", "/seller/product/edit", "/seller/product/delete", "/seller/order/status"})
 public class SellerServlet extends HttpServlet {
 
     private ProductService productService;
@@ -92,6 +92,11 @@ public class SellerServlet extends HttpServlet {
                 Long productId = Long.parseLong(req.getParameter("productId"));
                 productService.deleteProduct(productId);
                 req.getSession().setAttribute("flashSuccess", "Listing removed successfully.");
+            } else if ("/seller/order/status".equals(path)) {
+                Long orderId = Long.parseLong(req.getParameter("orderId"));
+                String newStatus = req.getParameter("status");
+                orderService.updateOrderStatus(orderId, newStatus);
+                req.getSession().setAttribute("flashSuccess", "Order #" + orderId + " status updated to " + newStatus);
             }
         } catch (Exception e) {
             req.getSession().setAttribute("flashError", e.getMessage());

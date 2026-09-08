@@ -4,10 +4,11 @@ target/
 *.jar
 *.ear
 
-# H2 Database files
+# H2 Database files & persistent data
 *.mv.db
 *.trace.db
 data/
+./data/
 
 # IDE & OS files
 .idea/
@@ -22,3 +23,5 @@ Thumbs.db
 # Environment & Config secrets
 config.properties
 .env
+
+temp_repo/

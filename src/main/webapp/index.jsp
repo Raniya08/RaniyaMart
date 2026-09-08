@@ -60,11 +60,15 @@
             <p>Your one-stop destination for high-quality electronics, fashion, and lifestyle items.</p>
 
             <form action="${pageContext.request.contextPath}/products" method="GET" class="search-bar-container">
-                <select name="category" class="select-input" style="max-width: 160px;">
+                <select name="category" class="select-input" style="max-width: 170px;">
                     <option value="all">All Categories</option>
                     <option value="Electronics" ${selectedCategory eq 'Electronics' ? 'selected' : ''}>Electronics</option>
                     <option value="Fashion" ${selectedCategory eq 'Fashion' ? 'selected' : ''}>Fashion</option>
                     <option value="Furniture" ${selectedCategory eq 'Furniture' ? 'selected' : ''}>Furniture</option>
+                    <option value="Mobile Phones" ${selectedCategory eq 'Mobile Phones' ? 'selected' : ''}>Mobile Phones</option>
+                    <option value="Home & Appliances" ${selectedCategory eq 'Home & Appliances' ? 'selected' : ''}>Home & Appliances</option>
+                    <option value="Books & Media" ${selectedCategory eq 'Books & Media' ? 'selected' : ''}>Books & Media</option>
+                    <option value="Other" ${selectedCategory eq 'Other' ? 'selected' : ''}>Other</option>
                 </select>
                 <select name="sort" class="select-input" style="max-width: 170px;">
                     <option value="newest" ${selectedSort eq 'newest' ? 'selected' : ''}>Newest Arrivals</option>
@@ -73,6 +77,9 @@
                 </select>
                 <input type="text" name="q" class="search-input" placeholder="Search products by title..." value="${fn:escapeXml(searchKeyword)}"/>
                 <button type="submit" class="btn btn-primary">Search</button>
+                <c:if test="${not empty searchKeyword || (not empty selectedCategory && selectedCategory ne 'all')}">
+                    <a href="${pageContext.request.contextPath}/products" class="btn btn-secondary" style="padding: 0.75rem 1rem;">Reset</a>
+                </c:if>
             </form>
         </section>
 
