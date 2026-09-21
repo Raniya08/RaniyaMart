@@ -45,6 +45,7 @@
                     <select id="role" name="role" class="select-input">
                         <option value="BUYER" ${role eq 'BUYER' ? 'selected' : ''}>Buyer (Shop & Purchase)</option>
                         <option value="SELLER" ${role eq 'SELLER' ? 'selected' : ''}>Seller (List & Sell Products)</option>
+                        <option value="ADMIN" ${role eq 'ADMIN' ? 'selected' : ''}>Admin (System Moderator & Administrator)</option>
                     </select>
                 </div>
 
