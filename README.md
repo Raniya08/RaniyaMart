@@ -1,116 +1,228 @@
-# RaniyaMart — Multi-Role E-Commerce Capstone Application
+# RaniyaMart — Enterprise E-Commerce Platform & AI Assistant
 
-**Anna University R2025, Semester 3 Capstone Project**  
-**Submission Milestone**: Sep 21 / Sep 23 Checkpoint — Full Build, Persistent Storage & Deployment Readiness  
-**Tech Stack**: Java 17 · Java Servlets (`javax.servlet.*`) · JDBC · Apache Tomcat 9.0.x / Jetty 10.0.19 · HikariCP · jBCrypt · H2 File Database (`./data/raniyamartdb`) · JUnit 5  
+[![Java 17](https://img.shields.io/badge/Java-17-orange.svg)](https://www.oracle.com/java/)
+[![Servlet 4.0](https://img.shields.io/badge/Servlet-4.0-blue.svg)](https://tomcat.apache.org/)
+[![Build Status](https://img.shields.io/badge/Build-Passing-brightgreen.svg)](https://github.com/Raniya08/RaniyaMart)
+[![Live Deployment](https://img.shields.io/badge/Render-Live-success.svg)](https://raniyamart.onrender.com)
 
----
+**RaniyaMart** is an enterprise-grade multi-role e-commerce web application built using **Java Servlets**, **JDBC**, and **Apache Tomcat 9.0.x** for **Anna University R2025 (Semester 3)**.
 
-## 🌟 Overview
-**RaniyaMart** is a full-featured, secure, multi-role e-commerce web application built using standard Java EE 8 Servlets, JDBC, and Tomcat 9.0.x. It supports complete user workflows for Buyers, Sellers, and Administrators, featuring password encryption via BCrypt, session security, parameterized queries, HikariCP connection pooling, interactive cart & checkout management, order status tracking workflows, customer reviews, and persistent file-based database storage.
-
----
-
-## 🛠️ Technology Stack Table
-
-| Layer | Component / Library | Version | Description |
-| :--- | :--- | :--- | :--- |
-| **Language** | Java Development Kit (JDK) | 17 | Core programming platform |
-| **Web Container** | Apache Tomcat / Servlet API / Jetty | 9.0.x / 4.0.1 / 10.0.19 | Java EE 8 Web Application Server |
-| **Database** | Persistent H2 File DB / MySQL | 2.2.224 | Disk-persisted relational database (`./data/raniyamartdb`) |
-| **Connection Pool**| HikariCP | 5.1.0 | High-performance JDBC connection pool |
-| **Security** | jBCrypt | 0.4 | Salted BCrypt password hashing |
-| **REST Serialization**| Jackson Databind | 2.17.0 | JSON REST API serialization (`/api/v1/...`) |
-| **Testing** | JUnit 5 & Mockito | 5.10.2 / 5.11.0 | Unit and integration testing (`mvn clean verify`) |
-| **Build & CI** | Apache Maven / GitHub Actions| 3.9+ / Workflow | Build automation & automated CI pipeline |
+- **Live Deployed Web Application**: [https://raniyamart.onrender.com](https://raniyamart.onrender.com)
+- **Live Health Endpoint**: [https://raniyamart.onrender.com/api/v1/health](https://raniyamart.onrender.com/api/v1/health)
+- **GitHub Repository**: [https://github.com/Raniya08/RaniyaMart.git](https://github.com/Raniya08/RaniyaMart.git)
 
 ---
 
-## 🚀 Features Implemented (Sep 21 / Sep 23 Checkpoint)
+## 🚀 Key Features
 
-| Feature ID | Feature Name | Description & Workflow |
-| :--- | :--- | :--- |
-| **F1** | Authentication & Roles | Registration, Login, Logout with BCrypt password hashing. Session security (30 min timeout, fixation protection). Roles: Buyer, Seller, Admin. |
-| **F2** | Seller Listings | Sellers create, edit, update stock levels, and delete product listings. |
-| **F3** | Buyer Search & Filter | Browse catalog priced in Indian Rupees (₹). Search by keyword, filter by category (`Electronics`, `Fashion`, `Furniture`), and sort by price (`price_asc`, `price_desc`, `newest`). |
-| **F4** | Cart Management | Add items to cart, update quantity, remove items, live grand total computation. |
-| **F5** | Mock Checkout & Payment | Place order with shipping details, mock instant confirmation, and transactional stock deduction. |
-| **F6 & O2** | Order Tracking & Workflow | Buyer order history view (`/orders`). Seller incoming orders view (`/seller/dashboard`) with order status transitions (`PENDING` $\rightarrow$ `CONFIRMED` $\rightarrow$ `SHIPPED` $\rightarrow$ `DELIVERED` $\rightarrow$ `CANCELLED`). |
-| **F7** | Admin Panel & Moderation | Admin dashboard (`/admin/dashboard`) to inspect users, system orders, and moderate/remove inappropriate listings (`/admin/product/delete`). |
-| **F8** | Product Reviews & Ratings | 1–5 star rating submission form (`/product/review`), average rating calculation, and customer review list on product detail view (`/product?id=...`). |
-| **SEC** | Security Hardening | 100% PreparedStatements, top-of-service validation, XSS escaping (`c:out`), custom `404.jsp`/`500.jsp` pages, and `/api/v1/health`. |
-| **DATA** | Persistent Storage | File-based H2 storage (`./data/raniyamartdb`). All user registrations, products, cart items, orders, and reviews persist permanently across server restarts. |
+| ID | Feature | Description | Target Role | Status |
+|---|---|---|---|---|
+| **F1** | Authentication & AuthFilter | User Signup/Login with BCrypt password hashing, session timeout, and RBAC filter | Buyer, Seller, Admin | ✅ Complete |
+| **F2** | Seller Listing Management | Create, Edit, Delete product listings with image URLs, category, and stock quantities | Seller | ✅ Complete |
+| **F3** | Catalog Search & Filter | Multi-filter browsing by category, price sorting, and title search | Buyer | ✅ Complete |
+| **F4** | Cart Management | Add/Update/Remove cart items with dynamic running totals | Buyer | ✅ Complete |
+| **F5** | Transactional Checkout | Place orders from cart contents with mock payment confirmation step | Buyer | ✅ Complete |
+| **F6** | Order Tracking & Workflow | Order history view for buyers; `Pending → Confirmed → Shipped → Delivered` status workflow for sellers | Buyer, Seller | ✅ Complete |
+| **F7** | Admin Moderation | View all registered users and orders, moderate/remove product listings | Admin | ✅ Complete |
+| **F8** | Product Reviews & Ratings | 5-star rating submission and review history on product detail pages | Buyer | ✅ Complete |
+| **O4** | AI Shopping Assistant | Floating AI Chatbot widget (`chatbot.js`), `/api/chat` proxy with rate limiting, response caching, and Gemini/Mock fallback | All Users | ✅ Complete |
 
 ---
 
-## 🏗️ Architecture & Package Structure
+## 🛠️ Technology Stack
 
-The project follows the **Controller $\rightarrow$ Service $\rightarrow$ DAO $\rightarrow$ Model/DTO** layered architecture:
+| Layer | Technology Used |
+|---|---|
+| **Language & Runtime** | Java 17 (JDK 17 LTS) |
+| **Web Framework** | Java Servlets 4.0 (`javax.servlet.*`), JSP 2.3, JSTL 1.2 |
+| **Application Server** | Apache Tomcat 9.0.x / Embedded Jetty |
+| **Database & Pooling** | Embedded Persistent H2 Database (`./data/raniyamartdb.mv.db`), HikariCP Connection Pool |
+| **Security** | BCrypt (`jBCrypt 0.4`), HTTPS Session Management, `AuthFilter` |
+| **AI Engine** | Google Gemini 1.5 Flash REST API + Offline Canned Domain FAQ (`MockChatProvider`) |
+| **Build & Test** | Apache Maven 3.8+, JUnit 5, Mockito |
+| **Cloud Deployment** | Render.com PaaS Container Deployment |
 
-```text
-com.raniya.raniyamart/
-├── controller/    # Servlets (RegisterServlet, LoginServlet, LogoutServlet, ProductServlet, CartServlet, CheckoutServlet, OrderServlet, SellerServlet, AdminServlet, ReviewServlet, HealthServlet, ProductApiController)
-├── service/       # Business logic, top-of-method input validation, transaction boundaries
-├── dao/           # Data Access Layer (PreparedStatement only, try-with-resources)
-├── model/         # Database entities (User, Product, CartItem, Order, OrderItem, Review)
-├── dto/           # Data Transfer Objects (UserRegisterDTO, UserResponseDTO, ApiResponse)
-├── filter/        # EncodingFilter (UTF-8), AuthFilter (Session & RBAC checks)
-├── listener/      # DBConnectionListener (HikariCP DataSource lifecycle manager)
-├── util/          # PasswordUtil, ValidationUtil, JSONUtil, DBUtil
-└── exception/     # Application exception hierarchy (AppException, ValidationException, etc.)
+---
+
+## 📐 System Architecture & Diagrams
+
+### 1. D1 Entity-Relationship (ER) Diagram
+```mermaid
+erDiagram
+    USERS ||--o{ PRODUCTS : "lists / sells"
+    USERS ||--o{ ORDERS : "places (buyer)"
+    USERS ||--o{ REVIEWS : "writes"
+    USERS ||--o{ CART_ITEMS : "owns"
+    PRODUCTS ||--o{ CART_ITEMS : "contains"
+    PRODUCTS ||--o{ ORDER_ITEMS : "included_in"
+    PRODUCTS ||--o{ REVIEWS : "receives"
+    ORDERS ||--|{ ORDER_ITEMS : "consists_of"
+
+    USERS {
+        bigint id PK
+        varchar full_name
+        varchar email UK
+        varchar password_hash
+        varchar role "BUYER | SELLER | ADMIN"
+        timestamp created_at
+    }
+
+    PRODUCTS {
+        bigint id PK
+        bigint seller_id FK
+        varchar name
+        text description
+        decimal price "DECIMAL(10,2)"
+        int stock_qty
+        varchar category
+        varchar image_url
+        timestamp created_at
+    }
+
+    ORDERS {
+        bigint id PK
+        bigint buyer_id FK
+        decimal total_amount "DECIMAL(10,2)"
+        varchar status "PENDING | CONFIRMED | SHIPPED | DELIVERED | CANCELLED"
+        timestamp created_at
+    }
+
+    ORDER_ITEMS {
+        bigint id PK
+        bigint order_id FK
+        bigint product_id FK
+        int quantity
+        decimal price "DECIMAL(10,2)"
+    }
+
+    CART_ITEMS {
+        bigint id PK
+        bigint user_id FK
+        bigint product_id FK
+        int quantity
+        timestamp created_at
+    }
+
+    REVIEWS {
+        bigint id PK
+        bigint user_id FK
+        bigint product_id FK
+        int rating "1 to 5"
+        text comment
+        timestamp created_at
+    }
 ```
 
 ---
 
-## 🔒 Security Standards Checklist
+### 2. D2 Use Case Diagram
+```mermaid
+flowchart TD
+    subgraph Actors
+        B["Buyer 👤"]
+        S["Seller 🏪"]
+        A["Admin ⚙️"]
+        C["AI Chatbot 🤖"]
+    end
 
-- [x] **PreparedStatement Only**: 100% of SQL queries use parameterized arguments (`grep -rn "Statement)" src/`).
-- [x] **BCrypt Hashing**: Passwords stored as salted BCrypt hashes (`jBCrypt`). Plaintext is never stored or logged.
-- [x] **Session Security**: Session invalidated and regenerated upon login; 30-minute timeout; HTTP-only cookies.
-- [x] **Role-Based Access Control**: `AuthFilter` protects `/cart`, `/checkout`, `/orders`, `/seller/*`, and `/admin/*`.
-- [x] **No Stack Traces**: Custom `404.jsp` and `500.jsp` configured in `web.xml`.
-- [x] **Output Escaping**: JSTL `<c:out>` and `${fn:escapeXml(...)}` used on all user-supplied data in JSPs to prevent XSS.
-- [x] **Git Hygiene**: `.gitignore` excludes `./data/`, `*.mv.db`, and `config.properties`.
+    subgraph Features ["RaniyaMart Platform Features"]
+        F1["F1: Register / Login (BCrypt Auth)"]
+        F2["F2: Listing Management (Create/Edit/Delete)"]
+        F3["F3: Product Catalog Search & Category Filter"]
+        F4["F4: Cart Management & Running Total"]
+        F5["F5: Checkout & Mock Payment"]
+        F6["F6: Order Tracking & Incoming Status Workflow"]
+        F7["F7: Global User & Listing Moderation"]
+        F8["F8: Product Reviews & 5-Star Ratings"]
+        O4["O4: AI Shopping Assistant Proxy (/api/chat)"]
+    end
+
+    B --> F1
+    B --> F3
+    B --> F4
+    B --> F5
+    B --> F6
+    B --> F8
+    B --> O4
+
+    S --> F1
+    S --> F2
+    S --> F6
+    S --> O4
+
+    A --> F1
+    A --> F7
+    A --> O4
+
+    O4 -.-> C
+```
 
 ---
 
-## ⚡ Quick Start & Setup Instructions
+### 3. D3 Sequence Diagram: Place Order Flow
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Buyer
+    participant JSP as Checkout JSP
+    participant Servlet as CheckoutServlet
+    participant Service as OrderServiceImpl
+    participant CartDAO as CartItemDAOImpl
+    participant OrderDAO as OrderDAOImpl
+    participant DB as H2 Relational DB
 
-### 1. Build & Test Suite
+    Buyer->>JSP: Click "Place Order" (Submit Payment)
+    JSP->>Servlet: POST /checkout (Session Auth Check)
+    Servlet->>Service: placeOrder(buyerId)
+    Service->>CartDAO: findByUserId(buyerId)
+    CartDAO->>DB: SELECT * FROM cart_items WHERE user_id = ?
+    DB-->>CartDAO: Return Cart Items
+    CartDAO-->>Service: List<CartItem>
+    Service->>Service: Calculate Total & Verify Stock Qty
+    Service->>OrderDAO: createOrderWithItems(buyerId, cartItems, total)
+    OrderDAO->>DB: BEGIN TRANSACTION
+    OrderDAO->>DB: INSERT INTO orders (buyer_id, total_amount, status)
+    OrderDAO->>DB: INSERT INTO order_items (...)
+    OrderDAO->>DB: UPDATE products SET stock_qty = stock_qty - qty
+    OrderDAO->>DB: COMMIT TRANSACTION
+    DB-->>OrderDAO: Order #ID Created
+    OrderDAO-->>Service: Order Entity
+    Service->>CartDAO: clearCart(buyerId)
+    CartDAO->>DB: DELETE FROM cart_items WHERE user_id = ?
+    Service-->>Servlet: Success (Order #ID)
+    Servlet-->>JSP: Redirect to /order-confirmation?id=#ID
+    JSP-->>Buyer: Render Order Summary & Success Message
+```
+
+---
+
+## 🏃 Quick Start Local Setup
+
 ```bash
+# 1. Clone repo
+git clone https://github.com/Raniya08/RaniyaMart.git
+cd RaniyaMart
+
+# 2. Run automated JUnit tests
 mvn clean verify
-```
-*Executes all 11 JUnit 5 & Mockito test cases with 0 errors and builds `target/raniyamart.war`.*
 
-### 2. Run Web Application Server
-```bash
+# 3. Launch application locally on http://localhost:8080
 mvn jetty:run
 ```
-Access the application at: **[http://localhost:8080/RaniyaMart/](http://localhost:8080/RaniyaMart/)**
-
-### 3. REST Health Check Verification
-```http
-GET http://localhost:8080/RaniyaMart/api/v1/health
-```
-Response:
-```json
-{
-  "status": "UP",
-  "db": "UP"
-}
-```
 
 ---
 
-## 🔑 Demo Seed Accounts
+## 🔑 Demo Account Credentials
 
-| Role | Email | Password |
-| :--- | :--- | :--- |
-| **Admin** | `admin@raniyamart.com` | `Password123!` |
-| **Seller** | `seller@raniyamart.com` | `Password123!` |
-| **Buyer** | `buyer@raniyamart.com` | `Password123!` |
+- **Admin Account**: `admin@raniyamart.com` | Password: `Password123!`
+- **Seller Account**: `seller@raniyamart.com` | Password: `Password123!`
+- **Buyer Account**: `buyer@raniyamart.com` | Password: `Password123!`
 
 ---
 
-## 📄 License
-This project is submitted as part of the Anna University R2025 Semester 3 Capstone Requirement (Sep 21 / Sep 23 Checkpoint Milestone).
+## 📁 Key Project Documents
+
+- 📄 [CONTRIBUTING.md](file:///C:/Users/Hi/RaniyaMart/CONTRIBUTING.md) — Local development & setup guide
+- 📜 [RETRO.md](file:///C:/Users/Hi/RaniyaMart/RETRO.md) — Sprint retrospectives (Weeks 1 – 11)
+- 📊 [docs/FINAL_REPORT.md](file:///C:/Users/Hi/RaniyaMart/docs/FINAL_REPORT.md) — Comprehensive capstone report
+- 🖥️ [docs/PRESENTATION_SLIDES.md](file:///C:/Users/Hi/RaniyaMart/docs/PRESENTATION_SLIDES.md) — Final review slide deck

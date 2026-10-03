@@ -126,5 +126,6 @@
     </footer>
 
     <script src="${pageContext.request.contextPath}/js/app.js"></script>
+    <script src="${pageContext.request.contextPath}/js/chatbot.js"></script>
 </body>
 </html>
