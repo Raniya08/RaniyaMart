@@ -3,9 +3,9 @@
 
 -- Password for all demo accounts is 'Password123!' hashed with BCrypt
 INSERT INTO users (full_name, email, password_hash, role) VALUES
-('Raniya Admin', 'admin@raniyamart.com', '$2a$10$8.UnVuG9HHgffUDAlk8qfOuVGkqRzgVymGe07Xd0D1BPH6.J5v.2a', 'ADMIN'),
-('Apex Tech Sellers', 'seller@raniyamart.com', '$2a$10$8.UnVuG9HHgffUDAlk8qfOuVGkqRzgVymGe07Xd0D1BPH6.J5v.2a', 'SELLER'),
-('Jane Buyer', 'buyer@raniyamart.com', '$2a$10$8.UnVuG9HHgffUDAlk8qfOuVGkqRzgVymGe07Xd0D1BPH6.J5v.2a', 'BUYER');
+('Raniya Admin', 'admin@raniyamart.com', '$2a$10$5.21vfZJZGHwnAx7xHzOW.E2FPXjap0HsBbKgmKvayPzmCoDQVLd.', 'ADMIN'),
+('Apex Tech Sellers', 'seller@raniyamart.com', '$2a$10$5.21vfZJZGHwnAx7xHzOW.E2FPXjap0HsBbKgmKvayPzmCoDQVLd.', 'SELLER'),
+('Jane Buyer', 'buyer@raniyamart.com', '$2a$10$5.21vfZJZGHwnAx7xHzOW.E2FPXjap0HsBbKgmKvayPzmCoDQVLd.', 'BUYER');
 
 -- Expanded Sample Products with Indian Rupee (₹) Pricing
 INSERT INTO products (seller_id, name, description, price, stock_qty, category, image_url) VALUES
