@@ -56,6 +56,25 @@ public class UserServiceTest {
     }
 
     @Test
+    void register_Admin_Success() {
+        UserRegisterDTO dto = new UserRegisterDTO("Admin User", "admin.test@example.com", "Password123!", "ADMIN");
+
+        when(userDAO.findByEmail("admin.test@example.com")).thenReturn(Optional.empty());
+        when(userDAO.create(any(User.class))).thenAnswer(invocation -> {
+            User u = invocation.getArgument(0);
+            u.setId(2L);
+            return u;
+        });
+
+        UserResponseDTO response = userService.register(dto);
+
+        assertNotNull(response);
+        assertEquals(2L, response.getId());
+        assertEquals("ADMIN", response.getRole());
+        verify(userDAO).create(any(User.class));
+    }
+
+    @Test
     void register_DuplicateEmail_ThrowsException() {
         UserRegisterDTO dto = new UserRegisterDTO("Test User", "test@example.com", "Password123!", "BUYER");
         when(userDAO.findByEmail("test@example.com")).thenReturn(Optional.of(new User()));
