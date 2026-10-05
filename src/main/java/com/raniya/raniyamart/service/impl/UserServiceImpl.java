@@ -40,8 +40,8 @@ public class UserServiceImpl implements UserService {
         ValidationUtil.validatePassword(dto.getPassword());
 
         String role = dto.getRole() != null ? dto.getRole().toUpperCase() : "BUYER";
-        if (!"BUYER".equals(role) && !"SELLER".equals(role) && !"ADMIN".equals(role)) {
-            throw new ValidationException("Invalid role selected. Must be BUYER, SELLER, or ADMIN.");
+        if (!"BUYER".equals(role) && !"SELLER".equals(role)) {
+            throw new ValidationException("Invalid role selected. Only BUYER or SELLER registrations allowed.");
         }
 
         if (userDAO.findByEmail(dto.getEmail().toLowerCase().trim()).isPresent()) {
