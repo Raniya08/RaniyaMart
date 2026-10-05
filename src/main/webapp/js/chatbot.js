@@ -1,5 +1,5 @@
 /**
- * RaniyaMart Floating AI Chatbot Widget Component
+ * RaniyaMart Enhanced Floating AI Chatbot Widget Component
  */
 (function () {
     document.addEventListener('DOMContentLoaded', function () {
@@ -13,19 +13,24 @@
                     <div class="rm-chat-header">
                         <div class="rm-chat-title">
                             <span>🤖 RaniyaMart AI Assistant</span>
-                            <small>Instant Shopping & Order Help</small>
+                            <small>24/7 E-Commerce Shopping & Order Helper</small>
                         </div>
-                        <button id="rm-chat-close">&times;</button>
+                        <div class="rm-header-actions">
+                            <button id="rm-chat-clear" title="Clear Conversation">🧹</button>
+                            <button id="rm-chat-close" title="Close Panel">&times;</button>
+                        </div>
                     </div>
                     <div class="rm-chat-body" id="rm-chat-messages">
                         <div class="rm-msg rm-msg-bot">
-                            Hello! 👋 How can I help you with RaniyaMart today? Try the quick questions below or type your inquiry!
+                            <div class="rm-msg-content">👋 Hello! I'm your RaniyaMart AI Assistant. How can I help you today?</div>
+                            <span class="rm-msg-time">${getTime()}</span>
                         </div>
                         <div class="rm-faq-pills">
                             <button class="rm-faq-pill" data-query="Shipping Info">🚚 Shipping</button>
                             <button class="rm-faq-pill" data-query="How to track order">📦 Order Status</button>
                             <button class="rm-faq-pill" data-query="Return policy">🔄 Returns</button>
                             <button class="rm-faq-pill" data-query="Payment options">💳 Payment</button>
+                            <button class="rm-faq-pill" data-query="Customer support">📞 Support</button>
                         </div>
                     </div>
                     <div class="rm-chat-footer">
@@ -59,7 +64,7 @@
                 font-size: 16px;
                 font-weight: 700;
                 cursor: pointer;
-                box-shadow: 0 8px 24px rgba(79, 70, 229, 0.35);
+                box-shadow: 0 8px 24px rgba(79, 70, 229, 0.4);
                 display: flex;
                 align-items: center;
                 gap: 8px;
@@ -67,7 +72,7 @@
             }
             #rm-chat-btn:hover {
                 transform: translateY(-2px);
-                box-shadow: 0 12px 28px rgba(79, 70, 229, 0.45);
+                box-shadow: 0 12px 28px rgba(79, 70, 229, 0.55);
             }
             .rm-chat-badge {
                 background: #ef4444;
@@ -81,13 +86,13 @@
                 position: absolute;
                 bottom: 70px;
                 right: 0;
-                width: 360px;
-                height: 480px;
+                width: 380px;
+                height: 520px;
                 background: #1e1e2e;
                 color: #cdd6f4;
-                border: 1px solid rgba(255, 255, 255, 0.1);
-                border-radius: 16px;
-                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+                border: 1px solid rgba(255, 255, 255, 0.12);
+                border-radius: 18px;
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
                 display: flex;
                 flex-direction: column;
                 overflow: hidden;
@@ -114,12 +119,23 @@
                 font-size: 11px;
                 color: #a6adc8;
             }
-            #rm-chat-close {
+            .rm-header-actions {
+                display: flex;
+                gap: 8px;
+                align-items: center;
+            }
+            #rm-chat-clear, #rm-chat-close {
                 background: transparent;
                 border: none;
                 color: #a6adc8;
-                font-size: 20px;
+                font-size: 16px;
                 cursor: pointer;
+                padding: 4px;
+                border-radius: 4px;
+                transition: color 0.2s;
+            }
+            #rm-chat-clear:hover, #rm-chat-close:hover {
+                color: #ffffff;
             }
             .rm-chat-body {
                 flex: 1;
@@ -131,23 +147,30 @@
             }
             .rm-msg {
                 max-width: 85%;
-                padding: 10px 14px;
-                border-radius: 12px;
+                padding: 12px 16px;
+                border-radius: 14px;
                 font-size: 13px;
-                line-height: 1.5;
-                white-space: pre-wrap;
+                line-height: 1.55;
+                display: flex;
+                flex-direction: column;
             }
             .rm-msg-bot {
                 background: #313244;
                 color: #cdd6f4;
                 align-self: flex-start;
-                border-bottom-left-radius: 2px;
+                border-bottom-left-radius: 4px;
             }
             .rm-msg-user {
                 background: #6366f1;
                 color: #ffffff;
                 align-self: flex-end;
-                border-bottom-right-radius: 2px;
+                border-bottom-right-radius: 4px;
+            }
+            .rm-msg-time {
+                font-size: 10px;
+                color: rgba(255, 255, 255, 0.45);
+                margin-top: 6px;
+                align-self: flex-end;
             }
             .rm-faq-pills {
                 display: flex;
@@ -156,17 +179,37 @@
                 margin-top: 4px;
             }
             .rm-faq-pill {
-                background: rgba(99, 102, 241, 0.15);
-                color: #818cf8;
-                border: 1px solid rgba(99, 102, 241, 0.3);
+                background: rgba(99, 102, 241, 0.18);
+                color: #a5b4fc;
+                border: 1px solid rgba(99, 102, 241, 0.35);
                 border-radius: 20px;
-                padding: 5px 10px;
+                padding: 6px 12px;
                 font-size: 11px;
+                font-weight: 600;
                 cursor: pointer;
-                transition: background 0.2s;
+                transition: all 0.2s ease;
             }
             .rm-faq-pill:hover {
-                background: rgba(99, 102, 241, 0.3);
+                background: rgba(99, 102, 241, 0.4);
+                color: #ffffff;
+            }
+            .rm-typing-dots {
+                display: flex;
+                gap: 4px;
+                padding: 4px 0;
+            }
+            .rm-typing-dot {
+                width: 6px;
+                height: 6px;
+                background: #a6adc8;
+                border-radius: 50%;
+                animation: rmTyping 1.4s infinite ease-in-out;
+            }
+            .rm-typing-dot:nth-child(2) { animation-delay: 0.2s; }
+            .rm-typing-dot:nth-child(3) { animation-delay: 0.4s; }
+            @keyframes rmTyping {
+                0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+                40% { transform: scale(1); opacity: 1; }
             }
             .rm-chat-footer {
                 padding: 12px;
@@ -178,9 +221,9 @@
             #rm-chat-input {
                 flex: 1;
                 background: #313244;
-                border: 1px solid rgba(255, 255, 255, 0.1);
+                border: 1px solid rgba(255, 255, 255, 0.12);
                 border-radius: 8px;
-                padding: 8px 12px;
+                padding: 10px 14px;
                 color: #cdd6f4;
                 font-size: 13px;
                 outline: none;
@@ -193,7 +236,7 @@
                 color: #fff;
                 border: none;
                 border-radius: 8px;
-                padding: 8px 14px;
+                padding: 10px 16px;
                 font-size: 13px;
                 font-weight: 600;
                 cursor: pointer;
@@ -208,6 +251,7 @@
         const chatBtn = document.getElementById('rm-chat-btn');
         const chatPanel = document.getElementById('rm-chat-panel');
         const chatClose = document.getElementById('rm-chat-close');
+        const chatClear = document.getElementById('rm-chat-clear');
         const chatInput = document.getElementById('rm-chat-input');
         const chatSend = document.getElementById('rm-chat-send');
         const chatMessages = document.getElementById('rm-chat-messages');
@@ -227,13 +271,34 @@
             chatPanel.classList.add('rm-hidden');
         });
 
-        // FAQ Pills
-        document.querySelectorAll('.rm-faq-pill').forEach(function (pill) {
-            pill.addEventListener('click', function () {
-                const query = this.getAttribute('data-query');
-                sendMessage(query);
-            });
+        // Clear Chat
+        chatClear.addEventListener('click', function () {
+            chatMessages.innerHTML = `
+                <div class="rm-msg rm-msg-bot">
+                    <div class="rm-msg-content">👋 Chat cleared! How can I help you with RaniyaMart?</div>
+                    <span class="rm-msg-time">${getTime()}</span>
+                </div>
+                <div class="rm-faq-pills">
+                    <button class="rm-faq-pill" data-query="Shipping Info">🚚 Shipping</button>
+                    <button class="rm-faq-pill" data-query="How to track order">📦 Order Status</button>
+                    <button class="rm-faq-pill" data-query="Return policy">🔄 Returns</button>
+                    <button class="rm-faq-pill" data-query="Payment options">💳 Payment</button>
+                    <button class="rm-faq-pill" data-query="Customer support">📞 Support</button>
+                </div>
+            `;
+            bindPillListeners();
         });
+
+        // Bind FAQ Pill Listeners
+        function bindPillListeners() {
+            document.querySelectorAll('.rm-faq-pill').forEach(function (pill) {
+                pill.addEventListener('click', function () {
+                    const query = this.getAttribute('data-query');
+                    sendMessage(query);
+                });
+            });
+        }
+        bindPillListeners();
 
         // Send Handlers
         chatSend.addEventListener('click', function () {
@@ -253,7 +318,7 @@
             appendMessage(userText, 'user');
             chatInput.value = '';
 
-            const loadingMsg = appendMessage('Typing...', 'bot');
+            const loadingMsg = appendTypingIndicator();
 
             fetch(contextPath + '/api/chat', {
                 method: 'POST',
@@ -278,10 +343,60 @@
         function appendMessage(msg, sender) {
             const div = document.createElement('div');
             div.className = 'rm-msg rm-msg-' + sender;
-            div.innerText = msg;
+            
+            const content = document.createElement('div');
+            content.className = 'rm-msg-content';
+            content.innerHTML = formatMarkdown(msg);
+
+            const time = document.createElement('span');
+            time.className = 'rm-msg-time';
+            time.innerText = getTime();
+
+            div.appendChild(content);
+            div.appendChild(time);
+
             chatMessages.appendChild(div);
             chatMessages.scrollTop = chatMessages.scrollHeight;
             return div;
+        }
+
+        function appendTypingIndicator() {
+            const div = document.createElement('div');
+            div.className = 'rm-msg rm-msg-bot';
+            div.innerHTML = `
+                <div class="rm-typing-dots">
+                    <div class="rm-typing-dot"></div>
+                    <div class="rm-typing-dot"></div>
+                    <div class="rm-typing-dot"></div>
+                </div>
+            `;
+            chatMessages.appendChild(div);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            return div;
+        }
+
+        function formatMarkdown(text) {
+            if (!text) return '';
+            let html = text
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/`(.*?)`/g, '<code>$1</code>')
+                .replace(/\n/g, '<br/>');
+            return html;
+        }
+
+        function getTime() {
+            const date = new Date();
+            let hours = date.getHours();
+            let minutes = date.getMinutes();
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12;
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            return hours + ':' + minutes + ' ' + ampm;
         }
     });
 })();

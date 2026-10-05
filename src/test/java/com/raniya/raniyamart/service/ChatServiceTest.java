@@ -23,7 +23,7 @@ class ChatServiceTest {
     void testShippingQuery() {
         String response = chatProvider.chat("What are the shipping details?", "session-123");
         assertNotNull(response);
-        assertTrue(response.contains("Shipping & Delivery Info"));
+        assertTrue(response.contains("Shipping & Delivery Guidelines"));
         assertTrue(response.contains("2-5 business days"));
     }
 
@@ -32,8 +32,8 @@ class ChatServiceTest {
     void testOrderTrackingQuery() {
         String response = chatProvider.chat("How do I track my order?", "session-123");
         assertNotNull(response);
-        assertTrue(response.contains("Order Tracking"));
-        assertTrue(response.contains("Pending → Confirmed → Shipped → Delivered"));
+        assertTrue(response.contains("Order Tracking & Status"));
+        assertTrue(response.contains("PENDING → CONFIRMED → SHIPPED → DELIVERED"));
     }
 
     @Test
@@ -41,7 +41,7 @@ class ChatServiceTest {
     void testReturnQuery() {
         String response = chatProvider.chat("Can I return a defective product?", "session-123");
         assertNotNull(response);
-        assertTrue(response.contains("Return & Refund Policy"));
+        assertTrue(response.contains("Returns & Refund Policy"));
     }
 
     @Test
