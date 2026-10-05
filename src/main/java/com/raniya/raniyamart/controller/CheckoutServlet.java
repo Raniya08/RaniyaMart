@@ -4,8 +4,10 @@ import com.raniya.raniyamart.dto.UserResponseDTO;
 import com.raniya.raniyamart.model.CartItem;
 import com.raniya.raniyamart.model.Order;
 import com.raniya.raniyamart.service.CartService;
+import com.raniya.raniyamart.service.NotificationService;
 import com.raniya.raniyamart.service.OrderService;
 import com.raniya.raniyamart.service.impl.CartServiceImpl;
+import com.raniya.raniyamart.service.impl.NotificationServiceImpl;
 import com.raniya.raniyamart.service.impl.OrderServiceImpl;
 
 import javax.servlet.ServletException;
@@ -23,11 +25,13 @@ public class CheckoutServlet extends HttpServlet {
 
     private CartService cartService;
     private OrderService orderService;
+    private NotificationService notificationService;
 
     @Override
     public void init() throws ServletException {
         this.cartService = new CartServiceImpl();
         this.orderService = new OrderServiceImpl();
+        this.notificationService = new NotificationServiceImpl();
     }
 
     @Override
@@ -60,7 +64,18 @@ public class CheckoutServlet extends HttpServlet {
 
         try {
             Order order = orderService.placeOrder(user.getId());
+            
+            // Dispatch Order Placement Notification to Buyer
+            notificationService.sendOrderConfirmationNotification(
+                user.getEmail(),
+                user.getFullName(),
+                order.getId(),
+                order.getTotalAmount()
+            );
+
             req.setAttribute("order", order);
+            req.setAttribute("notificationSent", true);
+            req.setAttribute("notificationMessage", "Order #" + order.getId() + " placed successfully! A confirmation notification has been sent to " + user.getEmail() + ".");
             req.getRequestDispatcher("/order-confirmation.jsp").forward(req, resp);
         } catch (Exception e) {
             req.setAttribute("errorMessage", "Checkout failed: " + e.getMessage());

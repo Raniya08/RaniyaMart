@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,6 +19,16 @@
             <h1 style="color: var(--success-color); margin-bottom: 0.5rem;">Order Placed Successfully!</h1>
             <p style="color: var(--text-secondary); margin-bottom: 2rem;">Thank you for shopping at RaniyaMart. Your order has been placed and confirmed.</p>
 
+            <c:if test="${not empty notificationMessage}">
+                <div class="alert alert-success" style="text-align: left; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem;">
+                    <span style="font-size: 1.3rem;">🔔</span>
+                    <div>
+                        <strong>Buyer Notification Sent!</strong>
+                        <div style="font-size: 0.88rem; margin-top: 0.2rem;"><c:out value="${notificationMessage}"/></div>
+                    </div>
+                </div>
+            </c:if>
+
             <div style="background: var(--bg-surface); padding: 1.5rem; border-radius: 12px; text-align: left; margin-bottom: 2rem;">
                 <p><strong>Order Reference ID:</strong> #<c:out value="${order.id}"/></p>
                 <p><strong>Order Status:</strong> <span class="badge badge-success"><c:out value="${order.status}"/></span></p>
@@ -33,5 +44,6 @@
     </div>
 
     <script src="${pageContext.request.contextPath}/js/app.js"></script>
+    <script src="${pageContext.request.contextPath}/js/chatbot.js"></script>
 </body>
 </html>
