@@ -113,6 +113,15 @@ public class SellerServlet extends HttpServlet {
         String category = req.getParameter("category");
         String imageUrl = req.getParameter("imageUrl");
 
+        if (imageUrl != null) {
+            imageUrl = imageUrl.trim();
+            if (imageUrl.startsWith("www.")) {
+                imageUrl = "https://" + imageUrl;
+            } else if (!imageUrl.isEmpty() && !imageUrl.startsWith("http://") && !imageUrl.startsWith("https://")) {
+                imageUrl = "https://" + imageUrl;
+            }
+        }
+
         Product p = new Product();
         p.setSellerId(sellerId);
         p.setName(name);

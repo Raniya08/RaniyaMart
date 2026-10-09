@@ -92,6 +92,13 @@ public class DBUtil {
             } else {
                 LOGGER.info("Database users table already populated. Persistent data loaded cleanly.");
             }
+
+            // Auto-recover sunscreen / skincare products or legacy broken image URLs
+            try {
+                stmt.executeUpdate("UPDATE products SET image_url = 'https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&w=600&q=80' WHERE LOWER(name) LIKE '%sunscreen%' OR LOWER(name) LIKE '%skincare%' OR LOWER(name) LIKE '%lotion%' OR LOWER(name) LIKE '%cream%' OR image_url LIKE '%photo-1560343090-f0409e92791a%'");
+            } catch (Exception ex) {
+                LOGGER.log(Level.FINE, "Image recovery query executed", ex);
+            }
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Error initializing database schema/seed", e);
         }

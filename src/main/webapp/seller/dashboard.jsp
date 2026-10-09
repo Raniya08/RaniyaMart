@@ -83,6 +83,7 @@
                         <label>Category</label>
                         <select name="category" class="select-input">
                             <option value="Electronics">Electronics</option>
+                            <option value="Beauty & Personal Care">Beauty & Personal Care</option>
                             <option value="Fashion">Fashion</option>
                             <option value="Furniture">Furniture</option>
                             <option value="Mobile Phones">Mobile Phones</option>
@@ -100,10 +101,11 @@
                         <input type="number" name="stockQty" class="search-input" value="10" required/>
                     </div>
                     <div class="form-group">
-                        <label>Image URL (Optional - Auto-generates based on Category if left blank)</label>
-                        <input type="url" id="product-img-input" name="imageUrl" class="search-input" placeholder="https://images.unsplash.com/..."/>
+                        <label>Image URL (Optional - Auto-generates based on Category/Name if left blank)</label>
+                        <input type="text" id="product-img-input" name="imageUrl" class="search-input" placeholder="https://images.unsplash.com/... or paste image link"/>
                         <div style="display: flex; gap: 0.4rem; margin-top: 0.5rem; flex-wrap: wrap;">
                             <small style="color: var(--text-secondary); width: 100%;">Quick Sample Image Pickers:</small>
+                            <button type="button" class="btn btn-secondary" style="padding: 0.2rem 0.5rem; font-size: 0.75rem;" onclick="document.getElementById('product-img-input').value='https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&w=600&q=80'">🧴 Sunscreen / Skincare</button>
                             <button type="button" class="btn btn-secondary" style="padding: 0.2rem 0.5rem; font-size: 0.75rem;" onclick="document.getElementById('product-img-input').value='https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=600&q=80'">📱 Phone</button>
                             <button type="button" class="btn btn-secondary" style="padding: 0.2rem 0.5rem; font-size: 0.75rem;" onclick="document.getElementById('product-img-input').value='https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=600&q=80'">💻 Laptop</button>
                             <button type="button" class="btn btn-secondary" style="padding: 0.2rem 0.5rem; font-size: 0.75rem;" onclick="document.getElementById('product-img-input').value='https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80'">⌚ Watch</button>

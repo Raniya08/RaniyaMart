@@ -63,6 +63,7 @@
                 <select name="category" class="select-input" style="max-width: 170px;">
                     <option value="all">All Categories</option>
                     <option value="Electronics" ${selectedCategory eq 'Electronics' ? 'selected' : ''}>Electronics</option>
+                    <option value="Beauty & Personal Care" ${selectedCategory eq 'Beauty & Personal Care' ? 'selected' : ''}>Beauty & Personal Care</option>
                     <option value="Fashion" ${selectedCategory eq 'Fashion' ? 'selected' : ''}>Fashion</option>
                     <option value="Furniture" ${selectedCategory eq 'Furniture' ? 'selected' : ''}>Furniture</option>
                     <option value="Mobile Phones" ${selectedCategory eq 'Mobile Phones' ? 'selected' : ''}>Mobile Phones</option>

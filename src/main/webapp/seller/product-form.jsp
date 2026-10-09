@@ -33,8 +33,13 @@
                     <label>Category</label>
                     <select name="category" class="select-input">
                         <option value="Electronics" ${product.category eq 'Electronics' ? 'selected' : ''}>Electronics</option>
+                        <option value="Beauty & Personal Care" ${product.category eq 'Beauty & Personal Care' ? 'selected' : ''}>Beauty & Personal Care</option>
                         <option value="Fashion" ${product.category eq 'Fashion' ? 'selected' : ''}>Fashion</option>
                         <option value="Furniture" ${product.category eq 'Furniture' ? 'selected' : ''}>Furniture</option>
+                        <option value="Mobile Phones" ${product.category eq 'Mobile Phones' ? 'selected' : ''}>Mobile Phones</option>
+                        <option value="Home & Appliances" ${product.category eq 'Home & Appliances' ? 'selected' : ''}>Home & Appliances</option>
+                        <option value="Books & Media" ${product.category eq 'Books & Media' ? 'selected' : ''}>Books & Media</option>
+                        <option value="Other" ${product.category eq 'Other' ? 'selected' : ''}>Other</option>
                     </select>
                 </div>
 
@@ -50,9 +55,10 @@
 
                 <div class="form-group">
                     <label>Image URL (Optional)</label>
-                    <input type="url" id="edit-img-input" name="imageUrl" class="search-input" value="${fn:escapeXml(product.imageUrl)}"/>
+                    <input type="text" id="edit-img-input" name="imageUrl" class="search-input" value="${fn:escapeXml(product.imageUrl)}"/>
                     <div style="display: flex; gap: 0.4rem; margin-top: 0.5rem; flex-wrap: wrap;">
                         <small style="color: var(--text-secondary); width: 100%;">Sample Image Pickers:</small>
+                        <button type="button" class="btn btn-secondary" style="padding: 0.2rem 0.5rem; font-size: 0.75rem;" onclick="document.getElementById('edit-img-input').value='https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&w=600&q=80'">🧴 Sunscreen / Skincare</button>
                         <button type="button" class="btn btn-secondary" style="padding: 0.2rem 0.5rem; font-size: 0.75rem;" onclick="document.getElementById('edit-img-input').value='https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=600&q=80'">📱 Phone</button>
                         <button type="button" class="btn btn-secondary" style="padding: 0.2rem 0.5rem; font-size: 0.75rem;" onclick="document.getElementById('edit-img-input').value='https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=600&q=80'">💻 Laptop</button>
                         <button type="button" class="btn btn-secondary" style="padding: 0.2rem 0.5rem; font-size: 0.75rem;" onclick="document.getElementById('edit-img-input').value='https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80'">⌚ Watch</button>
