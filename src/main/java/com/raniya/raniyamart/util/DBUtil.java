@@ -32,10 +32,10 @@ public class DBUtil {
         Properties props = loadConfigProperties();
 
         HikariConfig config = new HikariConfig();
-        String driver = props.getProperty("db.driver", "org.h2.Driver");
-        String url = props.getProperty("db.url", "jdbc:h2:file:./data/raniyamartdb;DB_CLOSE_DELAY=-1;MODE=MySQL;AUTO_SERVER=TRUE");
-        String user = props.getProperty("db.user", "sa");
-        String pass = props.getProperty("db.password", "");
+        String driver = System.getenv("DB_DRIVER") != null ? System.getenv("DB_DRIVER") : props.getProperty("db.driver", "org.h2.Driver");
+        String url = System.getenv("DB_URL") != null ? System.getenv("DB_URL") : props.getProperty("db.url", "jdbc:h2:file:./data/raniyamartdb;DB_CLOSE_DELAY=-1;MODE=MySQL;AUTO_SERVER=TRUE");
+        String user = System.getenv("DB_USER") != null ? System.getenv("DB_USER") : (System.getenv("DB_USERNAME") != null ? System.getenv("DB_USERNAME") : props.getProperty("db.user", props.getProperty("db.username", "sa")));
+        String pass = System.getenv("DB_PASSWORD") != null ? System.getenv("DB_PASSWORD") : props.getProperty("db.password", "");
 
         config.setDriverClassName(driver);
         config.setJdbcUrl(url);
