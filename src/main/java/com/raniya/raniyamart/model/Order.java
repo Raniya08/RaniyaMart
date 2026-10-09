@@ -12,6 +12,7 @@ public class Order {
     private String status; // PENDING, CONFIRMED, SHIPPED, DELIVERED, CANCELLED
     private Timestamp createdAt;
 
+    private String paymentMethod = "UPI / Online Payment";
     private List<OrderItem> items = new ArrayList<>();
 
     public Order() {}
@@ -38,6 +39,9 @@ public class Order {
 
     public Timestamp getCreatedAt() { return createdAt; }
     public void setCreatedAt(Timestamp createdAt) { this.createdAt = createdAt; }
+
+    public String getPaymentMethod() { return paymentMethod; }
+    public void setPaymentMethod(String paymentMethod) { this.paymentMethod = paymentMethod; }
 
     public List<OrderItem> getItems() { return items; }
     public void setItems(List<OrderItem> items) { this.items = items; }

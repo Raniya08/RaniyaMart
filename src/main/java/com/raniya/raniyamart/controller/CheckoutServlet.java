@@ -63,7 +63,23 @@ public class CheckoutServlet extends HttpServlet {
         }
 
         try {
+            String method = req.getParameter("paymentMethod");
+            String paymentLabel = "UPI / Online Payment";
+
+            if ("UPI".equalsIgnoreCase(method)) {
+                String upiApp = req.getParameter("upiApp");
+                String upiId = req.getParameter("upiId");
+                paymentLabel = "📱 UPI (" + (upiApp != null ? upiApp : "GPay") + ": " + (upiId != null && !upiId.isEmpty() ? upiId : "buyer@upi") + ")";
+            } else if ("CARD".equalsIgnoreCase(method)) {
+                String cardNumber = req.getParameter("cardNumber");
+                String last4 = (cardNumber != null && cardNumber.length() >= 4) ? cardNumber.substring(cardNumber.length() - 4) : "8892";
+                paymentLabel = "💳 Credit/Debit Card (Ending in *" + last4 + ")";
+            } else if ("COD".equalsIgnoreCase(method)) {
+                paymentLabel = "💵 Cash on Delivery (COD)";
+            }
+
             Order order = orderService.placeOrder(user.getId());
+            order.setPaymentMethod(paymentLabel);
             
             // Dispatch Order Placement Notification to Buyer
             notificationService.sendOrderConfirmationNotification(
@@ -74,8 +90,9 @@ public class CheckoutServlet extends HttpServlet {
             );
 
             req.setAttribute("order", order);
+            req.setAttribute("paymentLabel", paymentLabel);
             req.setAttribute("notificationSent", true);
-            req.setAttribute("notificationMessage", "Order #" + order.getId() + " placed successfully! A confirmation notification has been sent to " + user.getEmail() + ".");
+            req.setAttribute("notificationMessage", "Order #" + order.getId() + " placed via " + paymentLabel + "! Confirmation alert sent to " + user.getEmail() + ".");
             req.getRequestDispatcher("/order-confirmation.jsp").forward(req, resp);
         } catch (Exception e) {
             req.setAttribute("errorMessage", "Checkout failed: " + e.getMessage());

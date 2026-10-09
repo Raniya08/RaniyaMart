@@ -49,8 +49,15 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Image URL</label>
-                    <input type="url" name="imageUrl" class="search-input" required value="${fn:escapeXml(product.imageUrl)}"/>
+                    <label>Image URL (Optional)</label>
+                    <input type="url" id="edit-img-input" name="imageUrl" class="search-input" value="${fn:escapeXml(product.imageUrl)}"/>
+                    <div style="display: flex; gap: 0.4rem; margin-top: 0.5rem; flex-wrap: wrap;">
+                        <small style="color: var(--text-secondary); width: 100%;">Sample Image Pickers:</small>
+                        <button type="button" class="btn btn-secondary" style="padding: 0.2rem 0.5rem; font-size: 0.75rem;" onclick="document.getElementById('edit-img-input').value='https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=600&q=80'">📱 Phone</button>
+                        <button type="button" class="btn btn-secondary" style="padding: 0.2rem 0.5rem; font-size: 0.75rem;" onclick="document.getElementById('edit-img-input').value='https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=600&q=80'">💻 Laptop</button>
+                        <button type="button" class="btn btn-secondary" style="padding: 0.2rem 0.5rem; font-size: 0.75rem;" onclick="document.getElementById('edit-img-input').value='https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80'">⌚ Watch</button>
+                        <button type="button" class="btn btn-secondary" style="padding: 0.2rem 0.5rem; font-size: 0.75rem;" onclick="document.getElementById('edit-img-input').value='https://images.unsplash.com/photo-1580481072645-022f9a6d1270?auto=format&fit=crop&w=600&q=80'">🪑 Furniture</button>
+                    </div>
                 </div>
 
                 <div class="form-group">

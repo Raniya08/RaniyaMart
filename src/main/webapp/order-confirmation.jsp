@@ -32,6 +32,7 @@
             <div style="background: var(--bg-surface); padding: 1.5rem; border-radius: 12px; text-align: left; margin-bottom: 2rem;">
                 <p><strong>Order Reference ID:</strong> #<c:out value="${order.id}"/></p>
                 <p><strong>Order Status:</strong> <span class="badge badge-success"><c:out value="${order.status}"/></span></p>
+                <p><strong>Payment Method:</strong> <c:out value="${order.paymentMethod}"/></p>
                 <p><strong>Total Amount Paid:</strong> ₹<c:out value="${order.totalAmount}"/></p>
                 <p><strong>Order Date:</strong> <c:out value="${order.createdAt}"/></p>
             </div>

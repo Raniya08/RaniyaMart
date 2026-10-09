@@ -26,6 +26,9 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product createProduct(Product product) {
         validateProduct(product);
+        if (product.getImageUrl() == null || product.getImageUrl().trim().isEmpty()) {
+            product.setImageUrl(getDefaultImageUrlForCategory(product.getCategory()));
+        }
         return productDAO.create(product);
     }
 
@@ -80,5 +83,22 @@ public class ProductServiceImpl implements ProductService {
         if (product.getStockQty() == null || product.getStockQty() < 0) {
             throw new ValidationException("Stock quantity cannot be negative.");
         }
+    }
+
+    private String getDefaultImageUrlForCategory(String category) {
+        if (category == null) return "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=600&q=80";
+        String cat = category.trim().toLowerCase();
+        if (cat.contains("electronic") || cat.contains("laptop") || cat.contains("computer")) {
+            return "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=600&q=80";
+        } else if (cat.contains("mobile") || cat.contains("phone")) {
+            return "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=600&q=80";
+        } else if (cat.contains("fashion") || cat.contains("cloth") || cat.contains("apparel")) {
+            return "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80";
+        } else if (cat.contains("furniture") || cat.contains("chair") || cat.contains("desk")) {
+            return "https://images.unsplash.com/photo-1580481072645-022f9a6d1270?auto=format&fit=crop&w=600&q=80";
+        } else if (cat.contains("book") || cat.contains("media")) {
+            return "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=600&q=80";
+        }
+        return "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=600&q=80";
     }
 }

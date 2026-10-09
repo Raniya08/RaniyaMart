@@ -88,7 +88,7 @@
         <div class="product-grid">
             <c:forEach var="p" items="${products}">
                 <div class="product-card">
-                    <img src="${fn:escapeXml(p.imageUrl)}" alt="${fn:escapeXml(p.name)}" class="product-image" onerror="this.src='https://images.unsplash.com/photo-1560343090-f0409e92791a?auto=format&fit=crop&w=600&q=80';"/>
+                    <img src="${fn:escapeXml(p.imageUrl)}" alt="${fn:escapeXml(p.name)}" class="product-image" onerror="this.src='https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=600&q=80';"/>
                     <div class="product-info">
                         <span class="product-category"><c:out value="${p.category}"/></span>
                         <h3 class="product-title">
