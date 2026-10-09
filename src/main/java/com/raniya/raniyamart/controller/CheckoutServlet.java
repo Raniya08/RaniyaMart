@@ -79,24 +79,35 @@ public class CheckoutServlet extends HttpServlet {
             }
 
             Order order = orderService.placeOrder(user.getId());
-            order.setPaymentMethod(paymentLabel);
+            if (order != null) {
+                order.setPaymentMethod(paymentLabel);
+            }
             
-            // Dispatch Order Placement Notification to Buyer
-            notificationService.sendOrderConfirmationNotification(
-                user.getEmail(),
-                user.getFullName(),
-                order.getId(),
-                order.getTotalAmount()
-            );
+            // Dispatch Order Placement Notification to Buyer (Isolate so notification errors don't interrupt order completion)
+            try {
+                if (notificationService != null && user != null && order != null) {
+                    notificationService.sendOrderConfirmationNotification(
+                        user.getEmail(),
+                        user.getFullName(),
+                        order.getId(),
+                        order.getTotalAmount()
+                    );
+                }
+            } catch (Exception notifEx) {
+                System.err.println("Non-fatal notification error: " + notifEx.getMessage());
+            }
 
             req.setAttribute("order", order);
             req.setAttribute("paymentLabel", paymentLabel);
             req.setAttribute("notificationSent", true);
-            req.setAttribute("notificationMessage", "Order #" + order.getId() + " placed via " + paymentLabel + "! Confirmation alert sent to " + user.getEmail() + ".");
+            req.setAttribute("notificationMessage", "Order #" + (order != null ? order.getId() : "N/A") + " placed via " + paymentLabel + "! Confirmation alert sent to " + (user != null && user.getEmail() != null ? user.getEmail() : "buyer@raniyamart.com") + ".");
             req.getRequestDispatcher("/order-confirmation.jsp").forward(req, resp);
         } catch (Exception e) {
-            req.setAttribute("errorMessage", "Checkout failed: " + e.getMessage());
-            doGet(req, resp);
+            System.err.println("Checkout execution failed: " + e.getMessage());
+            e.printStackTrace();
+            HttpSession session = req.getSession(true);
+            session.setAttribute("flashError", "Checkout failed: " + e.getMessage());
+            resp.sendRedirect(req.getContextPath() + "/cart");
         }
     }
 
