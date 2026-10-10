@@ -21,7 +21,13 @@ public class DTOTest {
 
     @Test
     void testUserResponseDTOConstructor() {
-        UserResponseDTO dto = new UserResponseDTO(5L, "Jane Buyer", "buyer@example.com", "BUYER");
+        com.raniya.raniyamart.model.User user = new com.raniya.raniyamart.model.User();
+        user.setId(5L);
+        user.setFullName("Jane Buyer");
+        user.setEmail("buyer@example.com");
+        user.setRole("BUYER");
+
+        UserResponseDTO dto = new UserResponseDTO(user);
         assertEquals(5L, dto.getId());
         assertEquals("Jane Buyer", dto.getFullName());
         assertEquals("buyer@example.com", dto.getEmail());

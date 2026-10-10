@@ -75,4 +75,38 @@ public class OrderServiceTest {
         assertEquals(new BigDecimal("36980.00"), placed.getTotalAmount());
         assertEquals("CONFIRMED", placed.getStatus());
     }
+
+    @Test
+    void placeOrder_InsufficientStock_ThrowsValidationException() {
+        Product p = new Product();
+        p.setId(10L);
+        p.setName("Headphones");
+        p.setPrice(new BigDecimal("18490.00"));
+        p.setStockQty(1);
+
+        CartItem item = new CartItem();
+        item.setBuyerId(3L);
+        item.setProductId(10L);
+        item.setQuantity(5);
+        item.setProduct(p);
+
+        when(cartItemDAO.findByBuyerId(3L)).thenReturn(List.of(item));
+
+        assertThrows(ValidationException.class, () -> orderService.placeOrder(3L));
+        verify(orderDAO, never()).createOrder(any(), any());
+    }
+
+    @Test
+    void placeOrder_InvalidBuyerId_ThrowsValidationException() {
+        assertThrows(ValidationException.class, () -> orderService.placeOrder(null));
+        assertThrows(ValidationException.class, () -> orderService.placeOrder(0L));
+    }
+
+    @Test
+    void updateOrderStatus_ValidStatus_ReturnsTrue() {
+        when(orderDAO.updateStatus(100L, "SHIPPED")).thenReturn(true);
+        boolean updated = orderService.updateOrderStatus(100L, "SHIPPED");
+        assertTrue(updated);
+        verify(orderDAO).updateStatus(100L, "SHIPPED");
+    }
 }
