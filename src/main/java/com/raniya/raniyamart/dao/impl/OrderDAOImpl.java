@@ -18,7 +18,7 @@ public class OrderDAOImpl implements OrderDAO {
 
     @Override
     public Order createOrder(Order order, List<CartItem> cartItems) {
-        String insertOrderSql = "INSERT INTO orders (buyer_id, total_amount, status) VALUES (?, ?, ?)";
+        String insertOrderSql = "INSERT INTO orders (buyer_id, total_amount, status, created_at) VALUES (?, ?, ?, ?)";
         String insertItemSql = "INSERT INTO order_items (order_id, product_id, seller_id, quantity, price_per_unit) VALUES (?, ?, ?, ?, ?)";
         String updateStockSql = "UPDATE products SET stock_qty = stock_qty - ? WHERE id = ? AND stock_qty >= ?";
         String clearCartSql = "DELETE FROM cart_items WHERE buyer_id = ?";
@@ -28,11 +28,15 @@ public class OrderDAOImpl implements OrderDAO {
             conn = DBUtil.getConnection();
             conn.setAutoCommit(false); // Begin Transaction
 
+            Timestamp orderTime = (order.getCreatedAt() != null) ? order.getCreatedAt() : new Timestamp(System.currentTimeMillis());
+            order.setCreatedAt(orderTime);
+
             // 1. Insert Order
             try (PreparedStatement stmt = conn.prepareStatement(insertOrderSql, Statement.RETURN_GENERATED_KEYS)) {
                 stmt.setLong(1, order.getBuyerId());
                 stmt.setBigDecimal(2, order.getTotalAmount());
                 stmt.setString(3, order.getStatus() != null ? order.getStatus() : "CONFIRMED");
+                stmt.setTimestamp(4, orderTime);
                 stmt.executeUpdate();
 
                 try (ResultSet rs = stmt.getGeneratedKeys()) {

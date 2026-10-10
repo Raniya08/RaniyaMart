@@ -129,6 +129,7 @@
                     <thead>
                         <tr>
                             <th>Order ID</th>
+                            <th>Order Date</th>
                             <th>Buyer ID</th>
                             <th>Total Amount</th>
                             <th>Current Status</th>
@@ -139,6 +140,7 @@
                         <c:forEach var="ord" items="${incomingOrders}">
                             <tr>
                                 <td><strong>#<c:out value="${ord.id}"/></strong></td>
+                                <td style="font-size: 0.88rem; color: var(--text-secondary);"><c:out value="${not empty ord.formattedDate ? ord.formattedDate : ord.createdAt}"/></td>
                                 <td>Buyer #<c:out value="${ord.buyerId}"/></td>
                                 <td>₹<c:out value="${ord.totalAmount}"/></td>
                                 <td>
@@ -170,7 +172,7 @@
                         </c:forEach>
                         <c:if test="${empty incomingOrders}">
                             <tr>
-                                <td colspan="5" style="text-align: center; color: var(--text-secondary); padding: 2rem;">No incoming orders yet.</td>
+                                <td colspan="6" style="text-align: center; color: var(--text-secondary); padding: 2rem;">No incoming orders yet.</td>
                             </tr>
                         </c:if>
                     </tbody>

@@ -37,8 +37,18 @@ public class Order {
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
 
-    public Timestamp getCreatedAt() { return createdAt; }
+    public Timestamp getCreatedAt() {
+        if (createdAt == null) {
+            createdAt = new Timestamp(System.currentTimeMillis());
+        }
+        return createdAt;
+    }
     public void setCreatedAt(Timestamp createdAt) { this.createdAt = createdAt; }
+
+    public String getFormattedDate() {
+        Timestamp ts = (createdAt != null) ? createdAt : new Timestamp(System.currentTimeMillis());
+        return new java.text.SimpleDateFormat("dd MMM yyyy, hh:mm a").format(ts);
+    }
 
     public String getPaymentMethod() { return paymentMethod; }
     public void setPaymentMethod(String paymentMethod) { this.paymentMethod = paymentMethod; }

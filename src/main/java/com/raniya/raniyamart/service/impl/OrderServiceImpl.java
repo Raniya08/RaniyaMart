@@ -53,6 +53,7 @@ public class OrderServiceImpl implements OrderService {
         order.setBuyerId(buyerId);
         order.setTotalAmount(total);
         order.setStatus("CONFIRMED");
+        order.setCreatedAt(new java.sql.Timestamp(System.currentTimeMillis()));
 
         return orderDAO.createOrder(order, cartItems);
     }

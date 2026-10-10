@@ -29,7 +29,7 @@
                             <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; margin-bottom: 1rem;">
                                 <div>
                                     <span style="font-weight: 700; font-size: 1.1rem;">Order #${ord.id}</span>
-                                    <span style="color: var(--text-secondary); margin-left: 1rem; font-size: 0.9rem;"><c:out value="${ord.createdAt}"/></span>
+                                    <span style="color: var(--text-secondary); margin-left: 1rem; font-size: 0.9rem;"><c:out value="${not empty ord.formattedDate ? ord.formattedDate : ord.createdAt}"/></span>
                                 </div>
                                 <div>
                                     <span class="badge badge-success"><c:out value="${ord.status}"/></span>

@@ -34,7 +34,7 @@
                 <p><strong>Order Status:</strong> <span class="badge badge-success"><c:out value="${order.status}"/></span></p>
                 <p><strong>Payment Method:</strong> <c:out value="${order.paymentMethod}"/></p>
                 <p><strong>Total Amount Paid:</strong> ₹<c:out value="${order.totalAmount}"/></p>
-                <p><strong>Order Date:</strong> <c:out value="${order.createdAt}"/></p>
+                <p><strong>Order Date:</strong> <c:out value="${not empty order.formattedDate ? order.formattedDate : order.createdAt}"/></p>
             </div>
 
             <div style="display: flex; gap: 1rem; justify-content: center;">
