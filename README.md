@@ -220,9 +220,12 @@ mvn jetty:run
 
 ---
 
-## 📁 Key Project Documents
+## 📁 Key Project Documents & Artifacts
 
-- 📄 [CONTRIBUTING.md](file:///C:/Users/Hi/RaniyaMart/CONTRIBUTING.md) — Local development & setup guide
+- 📄 [ARCHITECTURE.md](file:///C:/Users/Hi/RaniyaMart/docs/ARCHITECTURE.md) — 3-Tier MVC Architecture & Design Patterns
+- 🗄️ [DATABASE_SCHEMA.md](file:///C:/Users/Hi/RaniyaMart/docs/DATABASE_SCHEMA.md) — Relational Data Dictionary & Schema
+- 📖 [USER_MANUAL.md](file:///C:/Users/Hi/RaniyaMart/docs/USER_MANUAL.md) — Role walkthroughs for Buyer, Seller, and Admin
+- 📑 [API_DOCUMENTATION.md](file:///C:/Users/Hi/RaniyaMart/docs/API_DOCUMENTATION.md) — Complete endpoint reference
+- 🖥️ [Presentation Slides PDF](file:///C:/Users/Hi/RaniyaMart/RaniyaMart_Presentation_Slides.pdf) — 10-slide landscape presentation deck
 - 📜 [RETRO.md](file:///C:/Users/Hi/RaniyaMart/RETRO.md) — Sprint retrospectives (Weeks 1 – 11)
 - 📊 [docs/FINAL_REPORT.md](file:///C:/Users/Hi/RaniyaMart/docs/FINAL_REPORT.md) — Comprehensive capstone report
-- 🖥️ [docs/PRESENTATION_SLIDES.md](file:///C:/Users/Hi/RaniyaMart/docs/PRESENTATION_SLIDES.md) — Final review slide deck
